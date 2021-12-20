@@ -1,0 +1,43 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "pokemons": [
+    {
+      "name": "kasjfd",
+      "image": "asdf",
+      "abilities": [
+        "sjadf"
+      ],
+      "types": [
+        "jkasdfasnmd"
+      ],
+      "stats": [
+        12323,
+        523,
+        76,
+        87,
+        78,
+        7
+      ],
+      "moves": [
+        "867"
+      ],
+      "id": 1
+    }
+  ]
+}

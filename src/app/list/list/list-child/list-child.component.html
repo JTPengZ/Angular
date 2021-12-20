@@ -1,0 +1,6 @@
+<ng-template [ngIf]="plist">
+    <div *ngFor="let character of (plist | limit: actualp: limit | search: filt)" [class]="'card'" [routerLink]="['/list', character.id]">
+        <h4>{{ character.id }} - {{ character.name }}</h4>
+        <img [src]="character.sprites.front_default" [alt]="character.name">
+    </div>
+</ng-template>

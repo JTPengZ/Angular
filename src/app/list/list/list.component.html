@@ -1,0 +1,19 @@
+<h3>Rick and Morty Character List!</h3>
+
+<div>
+  <input type="text" [(ngModel)]="filt"/>
+  <div>
+    <button [disabled]="actualp === 1" (click)="goPrevious()">Previous</button>
+    <p>{{ page }}</p>
+    <button [disabled]="actualp > (countMaxPkmn/limit)" (click)="goNext()">Next</button>
+  </div>
+  
+<app-list-child [plist]="plist" [filt]="filt" [limit]="limit" [actualp]="actualp" [class]="'content'"></app-list-child>
+
+<div>
+  <button [disabled]="actualp === 1" (click)="goPrevious()">Previous</button>
+  <p>{{ page }}</p>
+  <button [disabled]="actualp > (countMaxPkmn/limit)" (click)="goNext()">Next</button>
+</div>
+</div>  
+

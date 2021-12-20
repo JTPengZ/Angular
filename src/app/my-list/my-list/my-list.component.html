@@ -1,0 +1,69 @@
+<h2>Add new Pokemon</h2>
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="newPokemon">
+    <label for="name">
+        Nombre del pokemon:
+    </label>
+    <input type="text" id="name" formControlName="name"/>
+
+    <label for="image">
+        Imagen (enlace):
+    </label>
+    <input type="text" id="image" formControlName="image"/>
+
+    <div formArrayName="abilities">
+        <h3>Abilities</h3>
+        <button (click)="addAbility()" type="button">Add another ability</button>
+      
+        <div *ngFor="let ability of abilities.controls; let i=index">
+          <label for="ability-{{ i }}">Ability:</label>
+          <input id="ability-{{ i }}" type="text" [formControlName]="i" required> 
+          <button (click)="deleteAbility(i)">delete_forever</button>
+        </div>
+    </div>
+
+    <div formArrayName="types">
+        <h3>Types</h3>
+        <button [disabled]="this.types.length >= 2" (click)="addType()" type="button">Add another type</button>
+      
+        <div *ngFor="let type of types.controls; let i=index">
+          <label for="type-{{ i }}">Type:</label>
+          <input id="type-{{ i }}" type="text" [formControlName]="i" required> 
+          <button (click)="deleteType(i)">delete_forever</button>
+        </div>
+    </div>
+
+    <div formArrayName="stats">
+        <h3>Stats</h3>      
+        <div *ngFor="let stat of sts; let i=index">
+          <label for="stat-{{ i }}">{{stat.label}}:</label>
+          <input id="stat-{{ i }}" type="number" [formControlName]="i" required> 
+        </div>
+    </div>
+
+    <div formArrayName="moves">
+        <h3>Moves</h3>
+        <button (click)="addMove()" type="button">Add another move</button>
+      
+        <div *ngFor="let move of moves.controls; let i=index">
+          <!-- The repeated alias template -->
+          <label for="move-{{ i }}">Move:</label>
+          <input id="move-{{ i }}" type="text" [formControlName]="i" required> 
+          <button (click)="deleteMove(i)">delete_forever</button>
+        </div>
+    </div>
+
+    <p>Complete the form to enable button.</p>
+    <button type="submit" [disabled]="!newPokemon.valid">Submit</button>
+</form>
+<p>{{newPokemon.value | json}}</p>
+
+<h2>My List of pokemons</h2>
+
+<div *ngFor="let p of pokemonList">
+    <h3>{{ p.name }}</h3>
+    <p>{{ p.image }}</p> 
+    <p>{{p.abilities}}</p>
+    <p>{{ p.types }}</p> 
+    <p>{{ p.stats }}</p> 
+    <p>{{ p.moves }}</p>
+</div>
