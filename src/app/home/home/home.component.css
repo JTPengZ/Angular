@@ -1,1 +1,8 @@
-/* No CSS *//*# sourceMappingURL=home.component.css.map */
+.home {
+  text-align: center;
+}
+
+.home h3 {
+  text-align: center;
+}
+/*# sourceMappingURL=home.component.css.map */

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ListService } from 'src/app/services/global.service';
 import { MyListPokemonInterface } from '../my-list.model';
@@ -7,9 +7,11 @@ import { MyListPokemonInterface } from '../my-list.model';
   templateUrl: './my-list.component.html',
   styleUrls: ['./my-list.component.scss']
 })
-export class MyListComponent implements OnInit {
+export class MyListComponent implements OnInit, AfterViewChecked {
   newPokemon:FormGroup;
   pokemonList: MyListPokemonInterface[] = [];
+  buttontype:string = "";
+  idUpdate?:number;
 
   sts = [
     { label: "hp"},
@@ -18,43 +20,80 @@ export class MyListComponent implements OnInit {
     { label: "special-attack"},
     { label: "special-defense"},
     { label: "speed"}
-  ];
+    ];
 
-  constructor(private formBuilder: FormBuilder, private ser:ListService) { 
+  listTypes = ["Acero", "Agua", "Bicho", "Dragón", "Eléctrico", "Fantasma",
+  "Fuego", "Hada", "Hielo", "Lucha", "Normal", "Planta", "Psíquico", "Roca",
+  "Siniestro", "Tierra", "Veneno", "Volador"];
+
+  constructor(private formBuilder: FormBuilder, private ser:ListService, private readonly changeDetectorRef: ChangeDetectorRef) { 
     this.newPokemon = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(20)]],
       image: ['', [Validators.required, Validators.maxLength(50)]],
       abilities: this.formBuilder.array([
-        this.formBuilder.control('')
       ], Validators.required),
-      types: this.formBuilder.array([
-        this.formBuilder.control('')
-      ], Validators.required),
+      types: [null, Validators.required],
       stats: this.formBuilder.array([
 
       ], Validators.required),
       moves: this.formBuilder.array([
-        this.formBuilder.control('')
       ], Validators.required),
     })
   }
 
   ngOnInit(): void {
     this.addStats();
+    this.getPokemonList();
   }
 
-  onSubmit() {
-    this.pokemonList.push(this.newPokemon.value);
-    this.ser.submitPokemon(this.newPokemon.value).subscribe((pokemon:MyListPokemonInterface | any) => this.pokemonList.push(pokemon));
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  getPokemonList() {
+    this.ser.getMyList().subscribe((data) => this.pokemonList = data);
+  }
+
+  onSubmit(buttontype: string) {
+      if(buttontype === "create")
+        this.ser.submitPokemon(this.newPokemon.value).subscribe((pokemon:MyListPokemonInterface | any) => this.getPokemonList());
+      if(buttontype === "update"){
+        if(this.idUpdate)
+          this.ser.updatePokemon(this.newPokemon.value, this.idUpdate).subscribe(data => this.getPokemonList());
+      }
+  }
+
+  onDelete(item: MyListPokemonInterface){
+    this.ser.deletePokemon(item.id).subscribe(data => this.getPokemonList());
+  }
+
+  updatePokemon(item: MyListPokemonInterface){
+    this.idUpdate = item.id;
+    this.newPokemon.controls['name'].setValue(item.name);
+    this.newPokemon.controls['image'].setValue(item.image);
+    while (this.abilities.length !== 0) {
+      this.abilities.removeAt(0);
+    }
+    for(let a of item.abilities){
+      this.abilities.push(this.formBuilder.control(a))
+    }
+    this.newPokemon.controls['types'].setValue(item.types);
+    while (this.moves.length !== 0) {
+      this.moves.removeAt(0);
+    }
+    for(let m of item.moves){
+      this.moves.push(this.formBuilder.control(m))
+    }
+    this.newPokemon.controls['stats'].setValue(item.stats);
   }
 
   addStats(){
     for (let s of this.sts) {
-      this.addNewFormControl(s);
+      this.addNewFormControl();
     }
   }
 
-  addNewFormControl(status: { label?: string }){
+  addNewFormControl(){
     const control = <FormArray>this.newPokemon.controls['stats'];
     control.push(this.formBuilder.control(''));
   }
@@ -69,18 +108,6 @@ export class MyListComponent implements OnInit {
 
   deleteAbility(abilityIndex: number) {
     this.abilities.removeAt(abilityIndex);
-  }
-
-  get types() {
-    return this.newPokemon.controls["types"] as FormArray;
-  }
-
-  addType() {
-      this.types.push(this.formBuilder.control(''));
-  }
-
-  deleteType(i: number) {
-    this.types.removeAt(i);
   }
 
   get moves() {

@@ -21,8 +21,8 @@ export class DetailComponent implements OnInit {
       this.id = param.get("id");
     })
 
-    //Alguna forma de solucionar?? (+this.id! y (data: DetailInterface | any))
-    this.service.getListUrl(+this.id!).subscribe((data: DetailInterface | any) => {
+    //Alguna forma de solucionar?? +this.id!
+    this.service.getElementi(+this.id!).subscribe((data: DetailInterface) => {
       this.data = data;
     });
   }

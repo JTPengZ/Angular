@@ -1,14 +1,16 @@
-<p>Abilities: </p>
-<ul *ngFor="let ab of abilities">
-    <li> {{ ab.ability.name }} </li>
-</ul>
+<div>
+    <h4>Habilidades: </h4>
+    <ul *ngFor="let ab of abilities">
+        <li> {{ ab.ability.name | titlecase }} </li>
+    </ul>
 
-<p>Types: </p>
-<ul *ngFor="let type of types">
-    <li> {{ type.type.name }} </li>
-</ul>
+    <h4>Tipo: </h4>
+    <ul *ngFor="let type of types">
+        <li> {{ type.type.name | titlecase }} </li>
+    </ul>
 
-<p>Stats: </p>
-<ul *ngFor="let stat of stats">
-    <li> {{ stat.stat.name }} : {{stat.base_stat}} </li>
-</ul>
+    <h4>Stats base: </h4>
+    <ul *ngFor="let stat of stats">
+        <li> {{ stat.stat.name | titlecase }} : {{stat.base_stat}} </li>
+    </ul>
+</div>

@@ -6,9 +6,14 @@ export interface ListInterface {
     }
 }
 
-export interface ListResponseInterface {  
+export interface CompleteListResponse {  
     count: number;
     next: string;
     prev: string;
-    results: ListInterface[];
+    results: UrlList[] 
+}
+
+export interface UrlList {
+    name: string;
+    url: string;
 }

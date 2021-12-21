@@ -1,41 +1,26 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  },
   "pokemons": [
     {
-      "name": "kasjfd",
-      "image": "asdf",
+      "name": "TwoHigh",
+      "image": "d",
       "abilities": [
-        "sjadf"
+        "Mental"
       ],
       "types": [
-        "jkasdfasnmd"
+        "Tierra",
+        "Veneno",
+        "Volador"
       ],
       "stats": [
-        12323,
-        523,
-        76,
-        87,
-        78,
-        7
+        32,
+        432,
+        12,
+        312,
+        2,
+        43
       ],
       "moves": [
-        "867"
+        "asd"
       ],
       "id": 1
     }

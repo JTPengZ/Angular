@@ -1,6 +1,6 @@
-<ng-template [ngIf]="data">
-    <button (click)="goBack()">go back</button>
-    <app-detail-child1 [name]="data.name" [sprites]="data.sprites"></app-detail-child1>
+<div *ngIf="data">
+    <button (click)="goBack()">Volver</button>
+    <app-detail-child1 [name]="data.name" [sprite]="data.sprites"></app-detail-child1>
     <app-detail-child2 [abilities]="data.abilities" [types]="data.types" [stats]="data.stats"></app-detail-child2>
     <app-detail-child3 [moves]="data.moves"></app-detail-child3>
-</ng-template>
+</div>

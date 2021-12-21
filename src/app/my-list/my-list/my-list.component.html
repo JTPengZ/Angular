@@ -1,5 +1,5 @@
 <h2>Add new Pokemon</h2>
-<form novalidate (ngSubmit)="onSubmit()" [formGroup]="newPokemon">
+<form novalidate (ngSubmit)="onSubmit(buttontype)" [formGroup]="newPokemon">
     <label for="name">
         Nombre del pokemon:
     </label>
@@ -21,49 +21,65 @@
         </div>
     </div>
 
-    <div formArrayName="types">
-        <h3>Types</h3>
-        <button [disabled]="this.types.length >= 2" (click)="addType()" type="button">Add another type</button>
-      
-        <div *ngFor="let type of types.controls; let i=index">
-          <label for="type-{{ i }}">Type:</label>
-          <input id="type-{{ i }}" type="text" [formControlName]="i" required> 
-          <button (click)="deleteType(i)">delete_forever</button>
-        </div>
+    <div>
+      <h3>Types</h3>      
+        <select multiple formControlName="types">
+          <option [ngValue]="item" *ngFor="let item of listTypes">{{item}}</option>
+        </select>
     </div>
 
     <div formArrayName="stats">
-        <h3>Stats</h3>      
-        <div *ngFor="let stat of sts; let i=index">
-          <label for="stat-{{ i }}">{{stat.label}}:</label>
-          <input id="stat-{{ i }}" type="number" [formControlName]="i" required> 
-        </div>
+      <h3>Stats</h3>      
+      <div *ngFor="let stat of sts; let i=index">
+        <label for="stat-{{ i }}">{{stat.label}}:</label>
+        <input id="stat-{{ i }}" type="number" [formControlName]="i" required> 
+      </div>
     </div>
 
     <div formArrayName="moves">
-        <h3>Moves</h3>
-        <button (click)="addMove()" type="button">Add another move</button>
-      
-        <div *ngFor="let move of moves.controls; let i=index">
-          <!-- The repeated alias template -->
-          <label for="move-{{ i }}">Move:</label>
-          <input id="move-{{ i }}" type="text" [formControlName]="i" required> 
-          <button (click)="deleteMove(i)">delete_forever</button>
-        </div>
+      <h3>Moves</h3>
+      <button (click)="addMove()" type="button">Add another move</button>
+    
+      <div *ngFor="let move of moves.controls; let i=index">
+        <!-- The repeated alias template -->
+        <label for="move-{{ i }}">Move:</label>
+        <input id="move-{{ i }}" type="text" [formControlName]="i" required> 
+        <button (click)="deleteMove(i)">delete_forever</button>
+      </div>
     </div>
 
     <p>Complete the form to enable button.</p>
-    <button type="submit" [disabled]="!newPokemon.valid">Submit</button>
+    <button [disabled]="!newPokemon.valid" (click)="onSubmit('update')">Actualizar</button>
+    <button type="submit" [disabled]="!newPokemon.valid" (click)="onSubmit('create')">Enviar</button>
 </form>
 <p>{{newPokemon.value | json}}</p>
 
 <h2>My List of pokemons</h2>
 
 <div *ngFor="let p of pokemonList">
-    <h3>{{ p.name }}</h3>
-    <p>{{ p.image }}</p> 
-    <p>{{p.abilities}}</p>
-    <p>{{ p.types }}</p> 
-    <p>{{ p.stats }}</p> 
-    <p>{{ p.moves }}</p>
+    <h3>Nombre: {{ p.name }}</h3>
+    <img [src]="p.image" [alt]="p.name"/> 
+    <h4>Habilidades: </h4>
+    <ul *ngFor="let ab of p.abilities">
+      <li>{{ ab }}</li>
+    </ul>
+    <h4>Tipos: </h4>
+    <ul *ngFor="let t of p.types">
+      <li>{{ t }}</li>
+    </ul>
+    <h4>Stats Base: </h4>
+    <ul>
+      <li>Vida: {{ p.stats[0] }}</li>
+      <li>Ataque: {{ p.stats[1] }}</li>
+      <li>Defensa: {{ p.stats[2] }}</li>
+      <li>Ataque especial: {{ p.stats[3] }}</li>
+      <li>Defensa especial: {{ p.stats[4] }}</li>
+      <li>Velocidad: {{ p.stats[5] }}</li>
+    </ul>
+    <h4>Movimientos: </h4>
+    <ul *ngFor="let m of p.moves">
+      <li>{{ m }}</li>
+    </ul>
+    <button (click)="updatePokemon(p)">Actualizar</button>
+    <button (click)="onDelete(p)">Borrar</button>
 </div>

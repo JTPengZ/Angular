@@ -1,4 +1,6 @@
-<h3>Name: {{ name | uppercase }}</h3>
-<ng-template [ngIf]="sprites">
-    <img [src]="sprites.front_default" [alt]="name" [class]=""/>
-</ng-template>
+<div>
+    <h3>{{ name | uppercase }}</h3>
+    <ng-template [ngIf]="sprite">
+        <img [src]="sprite.front_default" [alt]="name" [class]=""/>
+    </ng-template>
+</div>

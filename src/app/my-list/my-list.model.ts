@@ -1,4 +1,5 @@
 export interface MyListPokemonInterface {
+    id: number;
     name:string;
     image:string;
     abilities:string[];

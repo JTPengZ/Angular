@@ -1,2 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin-top: 50px;
+}
+
+@media only screen and (min-width: 600px) {
+  body {
+    margin-top: 75px;
+  }
+}
+
+p, li {
+  font-size: 12px;
+}
+
+@media only screen and (min-width: 600px) {
+  p, li {
+    font-size: 16px;
+  }
+}
 /*# sourceMappingURL=styles.css.map */

@@ -9,9 +9,8 @@ import { ListInterface } from '../../list.model';
 export class ListChildComponent implements OnInit {
   @Input() plist?: ListInterface[];
   @Input() filt?:string;
-  //alguna forma de solucionar?? (@Input() limit!: number y @Input() actualp!: number)
-  @Input() limit!: number;
-  @Input() actualp!: number;
+  limit: number = 25;
+  @Input() actualp: number = 1;
 
   constructor() {
   }

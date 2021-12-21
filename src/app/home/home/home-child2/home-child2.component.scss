@@ -1,0 +1,11 @@
+.home{
+    margin: 10px 10px;
+    &--center{
+        text-align: center;
+    }
+
+    &__ul {
+        margin-top:10px;
+        list-style: none;
+    }
+}

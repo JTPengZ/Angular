@@ -1,1 +1,12 @@
-/* No CSS *//*# sourceMappingURL=home-child1.component.css.map */
+.home {
+  margin: 10px 10px;
+}
+
+.home--center {
+  text-align: center;
+}
+
+.home p {
+  margin-top: 10px;
+}
+/*# sourceMappingURL=home-child1.component.css.map */

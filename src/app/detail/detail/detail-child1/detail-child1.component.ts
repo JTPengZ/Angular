@@ -8,7 +8,7 @@ import { DetailSpriteInterface } from '../../detail.model';
 })
 export class DetailChild1Component implements OnInit {
   @Input() name?:string;
-  @Input() sprites?: DetailSpriteInterface;
+  @Input() sprite?: DetailSpriteInterface;
 
   constructor() { }
 

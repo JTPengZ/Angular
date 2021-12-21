@@ -1,8 +1,6 @@
-<p>Moves: </p>
-<ul *ngFor="let move of moves">
-    <li> {{ move.move.name }} 
-        <ul *ngFor="let m of move.version_group_details"> 
-            <li>Level: {{m.level_learned_at}} in Pokemon {{m.version_group.name}}</li>
-        </ul> 
-    </li>
-</ul>
+<div>
+    <h4>Movimientos que puede aprender: </h4>
+    <ul *ngFor="let move of moves">
+        <li> {{ move.move.name | titlecase}} </li>
+    </ul>
+</div>
