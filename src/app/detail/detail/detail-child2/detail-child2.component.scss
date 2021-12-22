@@ -1,0 +1,26 @@
+.detail-child2{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content:start;
+    flex-wrap: wrap;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.50);
+    border-top: 1.5px solid rgba(0, 0, 0, 0.50);
+
+    &__card {
+        width: 50%;
+        text-align: center;
+    }
+
+    &__stat{
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1.5px solid rgba(0, 0, 0, 0.50);
+    }
+
+}
+
+li{
+    list-style: none;
+}

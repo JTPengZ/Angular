@@ -1,30 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MyListPokemonInterface } from '../my-list/my-list.model';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { ListInterface, CompleteListResponse } from '../list/list.model';
-import { DetailInterface } from '../detail/detail.model';
+import { DetailInterface, AbilitiesListResponse } from '../detail/detail.model';
 
 const baseUrl = 'https://pokeapi.co/api/v2/';
 
 const pkmnUrl = baseUrl + 'pokemon/';
 
-const limitpkmnUrl = pkmnUrl + '?limit=25'
+const limitPkmnUrl = pkmnUrl + '?limit=25'
 
 const baseLocalUrl = 'http://localhost:3000/';
 
 const pkmnLocalUrl = baseLocalUrl + 'pokemons/';
 
+const movesPkmnLocalUrl = baseLocalUrl + 'move/';
+
+const limitmovespkmnLocalUrl = movesPkmnLocalUrl + '?limit=25';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ListService {
+  getElementAbilities(url: string): Observable<AbilitiesListResponse> {
+    return this.http.get<AbilitiesListResponse>(url).pipe(switchMap(
+      (result: AbilitiesListResponse) => (of({
+        names: result.names,
+        effect_entries: result.effect_entries
+      }
+    )))) as Observable<AbilitiesListResponse>;
+  }
 
   constructor(private http:HttpClient) { }
   getUrls():Observable<CompleteListResponse> {
-    return this.http.get<CompleteListResponse>(limitpkmnUrl).pipe(map(
+    return this.http.get<CompleteListResponse>(limitPkmnUrl).pipe(map(
         (result: CompleteListResponse) => ({
             count: result.count,
             prev: result.prev, 
@@ -44,22 +55,23 @@ export class ListService {
   }
 
   getElement(link:string): Observable<ListInterface> {
-    return this.http.get<ListInterface>(link).pipe(map((result: ListInterface) => ({
+    return this.http.get<ListInterface>(link).pipe(switchMap((result: ListInterface) => (of({
       id: result.id,
       name: result.name,
       sprites: result.sprites
-    }))) as Observable<ListInterface>;
+    })))) as Observable<ListInterface>;
   }
 
   getElementi(n:number): Observable<DetailInterface> {
-    return this.http.get<DetailInterface>(pkmnUrl + n).pipe(map((result: DetailInterface) => ({
+    return this.http.get<DetailInterface>(pkmnUrl + n).pipe(switchMap((result: DetailInterface) => (
+      of({
       name: result.name,
       sprites: result.sprites,
       abilities: result.abilities,
       moves: result.moves,
       stats: result.stats,
       types: result.types
-    }))) as Observable<DetailInterface>;
+    })))) as Observable<DetailInterface>;
   }
 
   submitPokemon(pokemon:MyListPokemonInterface): Observable<MyListPokemonInterface>{

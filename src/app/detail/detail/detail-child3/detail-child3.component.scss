@@ -1,0 +1,14 @@
+.detail-child3{
+    padding: 10px;
+    text-align: center;
+    ul {
+        padding: 5px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        li{
+            width: 30%;
+            list-style: none;
+        }
+    }
+}

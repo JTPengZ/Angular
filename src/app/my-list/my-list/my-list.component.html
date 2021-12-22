@@ -1,85 +1,116 @@
-<h2>Add new Pokemon</h2>
+<div class="my-list">
+<h2>Crear un nuevo Pokemon</h2>
 <form novalidate (ngSubmit)="onSubmit(buttontype)" [formGroup]="newPokemon">
-    <label for="name">
-        Nombre del pokemon:
-    </label>
-    <input type="text" id="name" formControlName="name"/>
-
-    <label for="image">
-        Imagen (enlace):
-    </label>
-    <input type="text" id="image" formControlName="image"/>
-
-    <div formArrayName="abilities">
-        <h3>Abilities</h3>
-        <button (click)="addAbility()" type="button">Add another ability</button>
+    <div class="my-list__input">
+      <label for="name">
+          Nombre del pokemon:
+      </label>
+      <input type="text" id="name" formControlName="name"/>
+      <div *ngIf="!newPokemon.get('name')?.valid &&
+        (newPokemon.get('name')?.dirty || submitted)" class="my-list__error">
+        El campo está vacío o tiene más de 20 letras
+      </div>
+    </div>
+    <div class="my-list__input">
+      <label for="image">
+          Imagen (enlace):
+      </label>
+      <input type="text" id="image" formControlName="image"/>
+      <div *ngIf="!newPokemon.get('image')?.valid &&
+        (newPokemon.get('image')?.dirty || submitted)" class="my-list__error">
+        El campo está vacío
+      </div>
+    </div>
+    <div formArrayName="abilities" class="my-list__form-array">
+        <h3>Habilidades</h3>
+        <button (click)="addAbility()" type="button">Añadir habilidad</button>
       
-        <div *ngFor="let ability of abilities.controls; let i=index">
-          <label for="ability-{{ i }}">Ability:</label>
+        <div *ngFor="let ability of abilities.controls; let i=index" class="my-list__input">
+          <label for="ability-{{ i }}">Habilidad:</label>           
+          <button (click)="deleteAbility(i)">Borrar habilidad</button>
           <input id="ability-{{ i }}" type="text" [formControlName]="i" required> 
-          <button (click)="deleteAbility(i)">delete_forever</button>
+        </div>
+        <div *ngIf="!newPokemon.get('abilities')?.valid &&
+           !submitted" class="my-list__error">
+            Debes añadir al menos una habilidad
         </div>
     </div>
 
     <div>
-      <h3>Types</h3>      
+      <h3>Tipo</h3>      
         <select multiple formControlName="types">
           <option [ngValue]="item" *ngFor="let item of listTypes">{{item}}</option>
         </select>
     </div>
 
     <div formArrayName="stats">
-      <h3>Stats</h3>      
-      <div *ngFor="let stat of sts; let i=index">
-        <label for="stat-{{ i }}">{{stat.label}}:</label>
-        <input id="stat-{{ i }}" type="number" [formControlName]="i" required> 
+      <h3>Stats Base</h3>      
+      <div *ngFor="let stat of sts; let i=index" class="my-list__input">
+        <label for="stat-{{ i }}">{{stat.label | titlecase}}:</label>
+        <input id="stat-{{ i }}" type="number" [formControlName]="i" min="0" required> 
       </div>
     </div>
 
-    <div formArrayName="moves">
-      <h3>Moves</h3>
-      <button (click)="addMove()" type="button">Add another move</button>
+    <div formArrayName="moves" class="my-list__form-array">
+      <h3>Movimientos</h3>
+      <button (click)="addMove()" type="button">Añadir movimiento</button>
     
-      <div *ngFor="let move of moves.controls; let i=index">
+      <div *ngFor="let move of moves.controls; let i=index" class="my-list__input">
         <!-- The repeated alias template -->
-        <label for="move-{{ i }}">Move:</label>
+        <label for="move-{{ i }}">Movimiento:</label>
+        <button (click)="deleteMove(i)">Borrar movimiento</button>
         <input id="move-{{ i }}" type="text" [formControlName]="i" required> 
-        <button (click)="deleteMove(i)">delete_forever</button>
+      </div>
+      <div *ngIf="!newPokemon.get('moves')?.valid &&
+           !submitted" class="my-list__error">
+            Debes añadir al menos un movimiento
       </div>
     </div>
 
-    <p>Complete the form to enable button.</p>
-    <button [disabled]="!newPokemon.valid" (click)="onSubmit('update')">Actualizar</button>
-    <button type="submit" [disabled]="!newPokemon.valid" (click)="onSubmit('create')">Enviar</button>
-</form>
-<p>{{newPokemon.value | json}}</p>
+    <button type="submit" [disabled]="!newPokemon.valid" (click)="onSubmit('create')" [hidden]="update">Enviar</button>
+    <button [disabled]="!newPokemon.valid" (click)="onSubmit('update')" [hidden]="!update">Actualizar</button>
+  </form>
 
-<h2>My List of pokemons</h2>
-
-<div *ngFor="let p of pokemonList">
-    <h3>Nombre: {{ p.name }}</h3>
-    <img [src]="p.image" [alt]="p.name"/> 
-    <h4>Habilidades: </h4>
-    <ul *ngFor="let ab of p.abilities">
-      <li>{{ ab }}</li>
-    </ul>
-    <h4>Tipos: </h4>
-    <ul *ngFor="let t of p.types">
-      <li>{{ t }}</li>
-    </ul>
-    <h4>Stats Base: </h4>
-    <ul>
-      <li>Vida: {{ p.stats[0] }}</li>
-      <li>Ataque: {{ p.stats[1] }}</li>
-      <li>Defensa: {{ p.stats[2] }}</li>
-      <li>Ataque especial: {{ p.stats[3] }}</li>
-      <li>Defensa especial: {{ p.stats[4] }}</li>
-      <li>Velocidad: {{ p.stats[5] }}</li>
-    </ul>
-    <h4>Movimientos: </h4>
-    <ul *ngFor="let m of p.moves">
-      <li>{{ m }}</li>
-    </ul>
-    <button (click)="updatePokemon(p)">Actualizar</button>
-    <button (click)="onDelete(p)">Borrar</button>
+  <h2>My lista de Pokemons</h2>
+  <div *ngFor="let p of pokemonList" class="my-list__main-div">
+    <div class="my-list__div">
+      <h3>Nombre: {{ p.name }}</h3>
+      <img [src]="p.image" [alt]="p.name"/> 
+    </div>
+    <div class="my-list__div2">
+      <div class="my-list__card">
+        <h4>Habilidades: </h4>
+        <ul *ngFor="let ab of p.abilities">
+          <li>{{ ab }}</li>
+        </ul>
+      </div>
+      <div class="my-list__card">
+        <h4>Tipos: </h4>
+        <ul *ngFor="let t of p.types">
+          <li>{{ t }}</li>
+        </ul>
+      </div>
+      <div class="my-list__stat-card">
+        <h4>Stats Base: </h4>
+        <ul>
+          <li>Vida: {{ p.stats[0] }}</li>
+          <li>Ataque: {{ p.stats[1] }}</li>
+          <li>Defensa: {{ p.stats[2] }}</li>
+          <li>Ataque especial: {{ p.stats[3] }}</li>
+          <li>Defensa especial: {{ p.stats[4] }}</li>
+          <li>Velocidad: {{ p.stats[5] }}</li>
+        </ul>
+    </div>
+    </div>
+    <div class="my-list__div3">
+      <h4>Movimientos: </h4>
+      <ul *ngFor="let m of p.moves">
+        <li>{{ m }}</li>
+      </ul>
+    </div>
+    <div class="my-list__button">
+      <button (click)="updatePokemon(p)">Actualizar</button>
+      <button (click)="onDelete(p)">Borrar</button>
+    </div>
+  </div>
 </div>

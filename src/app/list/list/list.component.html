@@ -1,18 +1,18 @@
-<div [class]="'list'">
+<div class=" list ">
   <h3>Lista de Pokemons</h3>
-  <input type="search" [(ngModel)]="filt" [class]="'list__search'"  placeholder="Buscar"/>
-  <div [class]="'list__div'">
-    <button [disabled]="actualp === 1" (click)="goPrevious()" [class]="'list__button'">Anterior</button>
-    <p>{{ actualp }}</p>
-    <button [disabled]="actualp > (countMaxPkmn/limit)" (click)="goNext()" [class]="'list__button'">Siguiente</button>
+  <input type="search" [(ngModel)]="filt" class=" list__search "  placeholder="Buscar"/>
+  <div class=" list__div ">
+    <button [disabled]="actualp === 1" (click)="goPrevious()" class=" list__button ">Anterior</button>
+    <p><strong>{{ actualp }}</strong></p>
+    <button [disabled]="actualp > (countMaxPkmn/limit)" (click)="goNext()" class=" list__button ">Siguiente</button>
   </div>
   
 <app-list-child [plist]="plist" [filt]="filt" [actualp]="actualp" class="content"></app-list-child>
 
-<div [class]="'list__div'">
-  <button [disabled]="actualp === 1" (click)="goPrevious()" [class]="'list__button'">Anterior</button>
-  <p>{{ actualp }}</p>
-  <button [disabled]="actualp > (countMaxPkmn/limit)" (click)="goNext()" [class]="'list__button'">Siguiente</button>
+<div class=" list__div ">
+  <button [disabled]="actualp === 1" (click)="goPrevious()" class=" list__button ">Anterior</button>
+  <p><strong>{{ actualp }}</strong></p>
+  <button [disabled]="actualp > (countMaxPkmn/limit)" (click)="goNext()" class=" list__button ">Siguiente</button>
 </div>
 </div>  
 

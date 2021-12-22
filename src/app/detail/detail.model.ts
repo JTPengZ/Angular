@@ -14,7 +14,9 @@ export interface DetailSpriteInterface {
 export interface DetailAbilityInterface {
     ability: {
         name:string;
+        url:string;
     }
+    detail: AbilitiesListResponse;
 }
 
 export interface DetailMovesInterface {
@@ -42,4 +44,20 @@ export interface DetailTypesInterface {
     type: {
         name:string;
     }
+}
+
+export interface AbilitiesListResponse {
+    names: NamesAbilities[];
+    effect_entries: EffectAbilities[];
+}
+
+export interface NamesAbilities {
+    name: string;
+}
+
+export interface EffectAbilities {
+    language: {
+        name: string;
+    }
+    short_effect: string;
 }

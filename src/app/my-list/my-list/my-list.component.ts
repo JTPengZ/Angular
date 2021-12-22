@@ -12,6 +12,7 @@ export class MyListComponent implements OnInit, AfterViewChecked {
   pokemonList: MyListPokemonInterface[] = [];
   buttontype:string = "";
   idUpdate?:number;
+  update: boolean = false;
 
   sts = [
     { label: "hp"},
@@ -25,11 +26,12 @@ export class MyListComponent implements OnInit, AfterViewChecked {
   listTypes = ["Acero", "Agua", "Bicho", "Dragón", "Eléctrico", "Fantasma",
   "Fuego", "Hada", "Hielo", "Lucha", "Normal", "Planta", "Psíquico", "Roca",
   "Siniestro", "Tierra", "Veneno", "Volador"];
+  submitted: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private ser:ListService, private readonly changeDetectorRef: ChangeDetectorRef) { 
     this.newPokemon = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(20)]],
-      image: ['', [Validators.required, Validators.maxLength(50)]],
+      image: ['', [Validators.required]],
       abilities: this.formBuilder.array([
       ], Validators.required),
       types: [null, Validators.required],
@@ -55,12 +57,19 @@ export class MyListComponent implements OnInit, AfterViewChecked {
   }
 
   onSubmit(buttontype: string) {
+    this.submitted = true;
+			// Si el formulario es valido
+	  if (this.newPokemon.valid) {
       if(buttontype === "create")
-        this.ser.submitPokemon(this.newPokemon.value).subscribe((pokemon:MyListPokemonInterface | any) => this.getPokemonList());
+        this.ser.submitPokemon(this.newPokemon.value).subscribe((pokemon:MyListPokemonInterface) => this.getPokemonList());
       if(buttontype === "update"){
         if(this.idUpdate)
           this.ser.updatePokemon(this.newPokemon.value, this.idUpdate).subscribe(data => this.getPokemonList());
       }
+      this.update = false;
+      this.newPokemon.reset();
+	    this.submitted = false;
+    }
   }
 
   onDelete(item: MyListPokemonInterface){
@@ -68,6 +77,7 @@ export class MyListComponent implements OnInit, AfterViewChecked {
   }
 
   updatePokemon(item: MyListPokemonInterface){
+    this.update = true;
     this.idUpdate = item.id;
     this.newPokemon.controls['name'].setValue(item.name);
     this.newPokemon.controls['image'].setValue(item.image);

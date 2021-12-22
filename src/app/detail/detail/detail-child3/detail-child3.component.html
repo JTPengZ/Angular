@@ -1,6 +1,6 @@
-<div>
+<div class="detail-child3">
     <h4>Movimientos que puede aprender: </h4>
-    <ul *ngFor="let move of moves">
-        <li> {{ move.move.name | titlecase}} </li>
+    <ul>
+        <li *ngFor="let move of moves"> {{ move.move.name | titlecase}} </li>
     </ul>
 </div>

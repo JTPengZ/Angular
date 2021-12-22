@@ -1,6 +1,9 @@
+@import "../../../../styles.scss";
+
 .card {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    transition: ease-in-out 1s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 15px 10px 15px 10px;
     border-style: solid;
     border-radius: 15px;
     align-items: center;
@@ -10,6 +13,13 @@
     text-align: center;
     width: 80%;
     padding-top: 10px;
-    //width: 30%;
+    @include tablet(){ width: 25%; }
     cursor: pointer;
+
+    &:hover {
+        color: white;
+        border-color: black;
+        background-image: linear-gradient(75deg, rgb(150, 150, 150) 0%, rgba(0,0,0,1) 50%, rgb(150, 150, 150) 100%);
+        transition: ease-in-out 0.5s;
+    }
 }

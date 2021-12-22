@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 .content{
     display: flex;
     width: 100%;
@@ -19,6 +21,10 @@
         background-position: 10px 10px;
         background-repeat: no-repeat;
         padding-left: 40px;
+
+        &:hover {
+            border-color: white;
+        }
     }
     p {
         font-size: 16px;
@@ -33,15 +39,26 @@
     }
     &__button {
         margin: 0 10px 0 10px;
+        font-size: 10px;
         padding: 5px;
         background-color: white;
         color: black;
-        border: 2px solid #afafaf;
+        border: 2px solid #000000;
         transition-duration: 0.4s;
 
+        @include tablet {
+            font-size: 14px;
+        }
+
         &:hover, &:focus{
-            background-color: #afafaf; 
+            background-color: #000000; 
             color: white;
+        }
+
+        &:disabled{
+            color: gray;
+            border-color: gray;
+            background-color: white;
         }
     }
 }

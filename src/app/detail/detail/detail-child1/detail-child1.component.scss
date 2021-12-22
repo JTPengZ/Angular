@@ -1,0 +1,17 @@
+@import "../../../../styles.scss";
+
+.detail-child{
+    align-items: center;
+    text-align: center;
+    h3 {
+        @include tablet {
+            font-size: 1.5em;
+        }
+    }
+    img{
+        width: 150px;
+        height: auto;
+    }
+}
+
+
