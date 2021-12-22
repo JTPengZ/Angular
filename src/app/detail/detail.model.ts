@@ -61,3 +61,7 @@ export interface EffectAbilities {
     }
     short_effect: string;
 }
+
+export interface IdElement {
+    id:string;
+}

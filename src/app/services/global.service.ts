@@ -62,7 +62,7 @@ export class ListService {
     })))) as Observable<ListInterface>;
   }
 
-  getElementi(n:number): Observable<DetailInterface> {
+  getElementi(n:string): Observable<DetailInterface> {
     return this.http.get<DetailInterface>(pkmnUrl + n).pipe(switchMap((result: DetailInterface) => (
       of({
       name: result.name,
